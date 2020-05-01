@@ -3,8 +3,8 @@ import React, { Fragment, useState } from 'react'
 const Pregunta = () => {
 
     //definir state de la cantidad ingresada
-    const [cantidad, setCantidad] = useState([]);
-
+    const [cantidad, setCantidad] = useState(0);
+    const [error, setError] = useState(false)
     //funcion que lee el presupuesto
 
     const definirPresupuesto = e => {
@@ -16,8 +16,12 @@ const Pregunta = () => {
         e.preventDefault();
 
         //Validar datos 
-
+        if (cantidad < 1 || isNaN(cantidad)) {
+            setError(true);
+            return;
+        }
         //se pasa la validaciòn que se hace
+        setError(false)
     }
 
     return (
