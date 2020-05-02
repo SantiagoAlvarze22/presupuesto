@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pregunta from './components/Pregunta';
 import Formulario from './components/Formulario';
 import Listado from './components/Listado'
@@ -8,18 +8,34 @@ function App() {
 
   //definidiendo el presupuesto
 
-  const [presupuesto, setPresupuesto] = useState(0)
-  const [restante, setRestante] = useState(0)
-  const [mostrarPregunta, setMostrarPregunta] = useState(true)
-  const [gastos, setGastos] = useState([])
+  const [presupuesto, setPresupuesto] = useState(0);
+  const [restante, setRestante] = useState(0);
+  const [mostrarPregunta, setMostrarPregunta] = useState(true);
+  const [gastos, setGastos] = useState([]);
+  const [gasto, setGasto] = useState({});
+  const [crearGasto, setCrearGasto] = useState(false)
 
-  //funcion se va a ejcutar uando agreguemos un nuevo gasto
-  const agregarNuevoGasto = gasto => {
-    setGastos([
-      ...gastos,
-      gasto
-    ])
-  }
+  //UseEffect que actualiza el restante
+  useEffect(() => {
+    if (crearGasto) {
+
+      //Agrega el nuevo presuepuesto
+      setGastos([
+        ...gastos,
+        gasto
+      ]);
+
+      //Resta del presupuesto actual
+      const presupuestoRestante = restante - gasto.cantidad;
+      setRestante(presupuestoRestante)
+
+      //resetear a false apenas se complete el còdigo
+      setCrearGasto(false)
+    }
+  }, [gasto]);
+
+
+
 
   return (
     <div className="Container">
@@ -40,7 +56,8 @@ function App() {
               <div className="row">
                 <div className="one-half column">
                   <Formulario
-                    agregarNuevoGasto={agregarNuevoGasto}
+                    setGasto={setGasto}
+                    setCrearGasto={setCrearGasto}
                   />
                 </div>
                 <div className="one-half column">
