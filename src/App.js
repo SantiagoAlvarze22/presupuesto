@@ -32,7 +32,7 @@ function App() {
       //resetear a false apenas se complete el còdigo
       setCrearGasto(false)
     }
-  }, [gasto]);
+  }, [gasto, crearGasto, gastos, restante]);
 
 
 
